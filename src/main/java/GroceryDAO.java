@@ -28,7 +28,8 @@ public class GroceryDAO {
         List<String> groceries = new ArrayList<>();
         try {
             //Write SQL logic here
-            String sql = "change me";
+            // using wildcard * in creating/writing SQL query to SELECT-ing/display all records/rows from 'Grocery' DB TABLE
+            String sql = "SELECT * FROM Grocery";
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
@@ -60,10 +61,21 @@ public class GroceryDAO {
         Connection connection = ConnectionUtil.getConnection();
         try {
             //Write SQL logic here
-            String sql = "change me";
+            // creating/writing an SQL query/statement -- here using PreparedStatement interface's parameterized ? as a placeholder
+            
+            /* Aside: If using Statement interface to execute SQL queries -- 'sql' String would be different (not parameterized ?), 
+            Statement stmt = connection.createStatement(sql), ... etc. */
+
+            /* Benefit of using PreparedStatement interface to execute SQL queries -- 
+            1) gives flexibility when specifying parameters w/ (?) statements & 
+            2) protect against SQL Injection from user input on front-end client-side by pre-compiling SQL statement */
+
+            String sql = "INSERT INTO Grocery (grocery_name) VALUES (?)";
             PreparedStatement ps = connection.prepareStatement(sql);
 
             //add code that leverages ps.setString here
+            // set value of parameterized ? placeholder to arg's 'groceryName' to INSERT new record/row into 'Grocery' DB TABLE
+            ps.setString(1, groceryName);
 
             ps.executeUpdate();
         }catch(SQLException e){
