@@ -32,12 +32,18 @@ public class GroceryDAO {
             String sql = "SELECT * FROM Grocery";
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
+            // use ResultSet's .next() method to check if there's a next row after this -- if so move cursor to suceding one
             while(rs.next()){
+                // use ResultSet's .getString() method to retrieve rows under specified column name ...
+                // assign to previously declared 'groceries' ArrayList above 
                 groceries.add(rs.getString("grocery_name"));
             }
+        // if any Exceptions were to be thrown, catch them here
         }catch(SQLException e){
+            // output stream their identifiers
             e.printStackTrace();
         }
+        // return List of 'groceries' with Object type of String -- Recall: Lists only takes Complex Object Types NOT primitive types (boolean, int, long, char, etc.)
         return groceries;
     }
     /**
